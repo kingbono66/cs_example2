@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Console;
+using System.Runtime.CompilerServices;
 
 namespace cs_example2
 {
@@ -12,42 +13,38 @@ namespace cs_example2
     {
         static void Main(string[] args)
         {
-            Cat kitty = new Cat();
-            kitty.name = "키티";
-            kitty.color = "분홍색";
-            kitty.Meow();
-
-            Cat cat = new Cat();
-            cat.name = "네로";
-            cat.color = "검은색";
-            cat.Meow();
-
-            Cat unknown = new Cat();
-            unknown.Meow();
-
+            try
+            {
+                WaterHeater heater = new WaterHeater();
+                heater.SetTemperature(20);
+                heater.TurnOnWater();
+                heater.SetTemperature(50);
+                heater.TurnOnWater();
+                heater.SetTemperature(-2);
+                heater.TurnOnWater();
+            }
+            catch(Exception e)
+            {
+                WriteLine(e.Message);
+            }            
         }
     }
 
-    class Cat
+    class WaterHeater
     {
-        public string name;
-        public string color;
+        protected int temperature;
 
-        public Cat()
+        public void SetTemperature(int temperature)
         {
-            name = "나비";
-            color = "몰라";
+            if( temperature < -5 || temperature > 42)
+            {
+                throw new Exception("범위를 벗어났습니다");
+            }
+            this.temperature = temperature;
         }
-
-        public void Meow()
+        internal void TurnOnWater()
         {
-            WriteLine($"{name}({color}) : 야옹");
+            WriteLine($"Turn on water : {temperature}");
         }
-
-        ~Cat()
-        {
-            WriteLine($"{name} : bye");
-        }
-
     }
 }
