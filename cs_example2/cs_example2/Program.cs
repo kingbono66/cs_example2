@@ -11,40 +11,42 @@ namespace cs_example2
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            try
-            {
-                WaterHeater heater = new WaterHeater();
-                heater.SetTemperature(20);
-                heater.TurnOnWater();
-                heater.SetTemperature(50);
-                heater.TurnOnWater();
-                heater.SetTemperature(-2);
-                heater.TurnOnWater();
-            }
-            catch(Exception e)
-            {
-                WriteLine(e.Message);
-            }            
-        }
+       
     }
 
-    class WaterHeater
+    class Base
     {
-        protected int temperature;
+        protected string name;
+        public Base(string name)
+        {
+            this.name = name;
+            WriteLine($"{this.name}.Base()");
+        }
+        ~Base()
+        {
+            WriteLine($"{name}.~Base()");
+        }
+        public void BaseMethod()
+        {
+            WriteLine($"{name}.BaseMethod()");
+        }
 
-        public void SetTemperature(int temperature)
+    }
+    class Derived : Base
+    {
+        public Derived(string name) : base(name)
         {
-            if( temperature < -5 || temperature > 42)
-            {
-                throw new Exception("범위를 벗어났습니다");
-            }
-            this.temperature = temperature;
+            this.name = name;
+            WriteLine($"{this.name}.Derived()");
         }
-        internal void TurnOnWater()
+        ~Derived()
         {
-            WriteLine($"Turn on water : {temperature}");
+            WriteLine($"{name}.~Derived()");
         }
+        public void DerivedMethod()
+        {
+            WriteLine($"{name}.DerivedMethod()");
+        }
+
     }
 }
