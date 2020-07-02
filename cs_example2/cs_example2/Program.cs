@@ -11,7 +11,16 @@ namespace cs_example2
 {
     class Program
     {
-       
+        static void Main(string[] args)
+        {
+            Base a = new Base("a");
+            a.BaseMethod();
+
+            Derived b = new Derived("b");
+            b.BaseMethod();
+            b.DerivedMethod();
+        }
+
     }
 
     class Base
