@@ -8,7 +8,7 @@ using static System.Console;
 
 namespace cs_example2
 {
-    delegate int Compare(int a, int b);
+    delegate int Compare<T>(T a, T b);
     class Program
     {
         static void Main(string[] args)
@@ -23,7 +23,7 @@ namespace cs_example2
                 WriteLine();
 
                 WriteLine("오름차순 정렬");
-                BubbleSort(array, new Compare(AscendCompare));
+                BubbleSort<int>(array, new Compare<int>(AscendCompare<int>));
 
                 foreach (int i in array)
                 {
@@ -43,7 +43,7 @@ namespace cs_example2
                 WriteLine();
 
                 WriteLine("내림차순 정렬");
-                BubbleSort(array, new Compare(DescendCompare));
+                BubbleSort<int>(array, new Compare<int>(DescendCompare<int>));
 
                 foreach (int i in array)
                 {
@@ -51,29 +51,40 @@ namespace cs_example2
                 }
                 WriteLine();
             }
+
+            {
+                float[] array = { 3.2f, 7.4f, 4.5f, 2.1f, 10.4f };
+
+                foreach (float i in array)
+                {
+                    Write($"{i} ");
+                }
+                WriteLine();
+
+                WriteLine("내림차순 정렬");
+                BubbleSort<float>(array, new Compare<float>(DescendCompare<float>));
+
+                foreach (float i in array)
+                {
+                    Write($"{i} ");
+                }
+                WriteLine();
+            }
         }
 
-        static int AscendCompare(int a, int b)
+        static int AscendCompare<T>(T a, T b) where T : IComparable<T>
         {
-            if (a > b)
-                return 1;
-            else if (a == b)
-                return 0;
-            else
-                return -1;
+            return a.CompareTo(b);
+            
         }
-        static int DescendCompare(int a, int b)
+        static int DescendCompare<T>(T a, T b) where T : IComparable<T>
         {
-            if (a < b)
-                return 1;
-            else if (a == b)
-                return 0;
-            else
-                return -1;
+            return -a.CompareTo(b);
+
         }
-        static void BubbleSort(int[] dataSet, Compare Comparer)
+        static void BubbleSort<T>(T[] dataSet, Compare<T> Comparer)
         {
-            int temp = 0;
+            T temp;
 
             for( int i = 0; i < dataSet.Length - 1; i++)
             {
@@ -91,3 +102,11 @@ namespace cs_example2
     }
 
 }
+
+/*
+static void CopyArray<T>(T[] source, T[] target)
+{
+    for (int i = 0; i < source.Length; i++)
+        target[i] = source[i];
+}
+*/
